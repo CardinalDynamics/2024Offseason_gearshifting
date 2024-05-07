@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,16 +34,21 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-   private VictorSPX leftMotor1 = new VictorSPX(0);
-   private VictorSPX leftMotor2 = new VictorSPX(1);
-   private VictorSPX leftMotor3 = new VictorSPX(2);
-   private VictorSPX leftMotor4 = new VictorSPX(3);
-   private VictorSPX rightMotor1 = new VictorSPX(4);
-   private VictorSPX rightMotor2 = new VictorSPX(5);
-   private VictorSPX rightMotor3 = new VictorSPX(6);
-   private VictorSPX rightMotor4 = new VictorSPX(7);
-
-   private Joystick joy1 = new Joystick(0);
+  // motors
+  private VictorSPX leftMotor1 = new VictorSPX(0);
+  private VictorSPX leftMotor2 = new VictorSPX(1);
+  private VictorSPX leftMotor3 = new VictorSPX(2);
+  private VictorSPX leftMotor4 = new VictorSPX(3);
+  private VictorSPX rightMotor1 = new VictorSPX(4);
+  private VictorSPX rightMotor2 = new VictorSPX(5);
+  private VictorSPX rightMotor3 = new VictorSPX(6);
+  private VictorSPX rightMotor4 = new VictorSPX(7);
+  // xbox things
+  private Joystick joy1 = new Joystick(0);
+  private XboxController xbox = new XboxController(1);
+  // puhneumatics
+   private Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
+   private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0,1);
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -92,6 +100,9 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
+  
+    
+    
     double speed = -joy1.getRawAxis(1) * 0.6;
     double turn = joy1.getRawAxis(4) * 0.3;
     double left = speed + turn;
@@ -104,6 +115,16 @@ public class Robot extends TimedRobot {
     rightMotor2.set(ControlMode.PercentOutput,-right);
     rightMotor3.set(ControlMode.PercentOutput,-right);
     rightMotor4.set(ControlMode.PercentOutput,-right);
+
+    if (xbox.getLeftBumper()) {
+
+      solenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    else if(xbox.getRightBumper()) {
+
+      solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
   }
 
   /** This function is called periodically during operator control. */
