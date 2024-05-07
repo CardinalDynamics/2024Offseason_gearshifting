@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Compressor;
+// import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -35,21 +35,24 @@ public class Robot extends TimedRobot {
    */
 
   // motors
-  private VictorSPX leftMotor1 = new VictorSPX(0);
-  private VictorSPX leftMotor2 = new VictorSPX(1);
-  private VictorSPX leftMotor3 = new VictorSPX(2);
-  private VictorSPX leftMotor4 = new VictorSPX(3);
-  private VictorSPX rightMotor1 = new VictorSPX(4);
-  private VictorSPX rightMotor2 = new VictorSPX(5);
-  private VictorSPX rightMotor3 = new VictorSPX(6);
-  private VictorSPX rightMotor4 = new VictorSPX(7);
+  private VictorSPX leftMotor1 = new VictorSPX(5);
+  private VictorSPX leftMotor2 = new VictorSPX(6);
+  private VictorSPX leftMotor3 = new VictorSPX(7);
+  private VictorSPX leftMotor4 = new VictorSPX(8);
+  private VictorSPX rightMotor1 = new VictorSPX(1);
+  private VictorSPX rightMotor2 = new VictorSPX(2);
+  private VictorSPX rightMotor3 = new VictorSPX(3);
+  private VictorSPX rightMotor4 = new VictorSPX(4);
   // xbox things
   private Joystick joy1 = new Joystick(0);
   private XboxController xbox = new XboxController(1);
   // puhneumatics
-   private Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
+   //private Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
    private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0,1);
-  @Override
+  
+  
+  
+   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
