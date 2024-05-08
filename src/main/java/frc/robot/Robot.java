@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
-
+//import edu.wpi.first.wpilibj.simulation.*;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX; 
 
 
@@ -35,10 +36,11 @@ public class Robot extends TimedRobot {
    */
 
   // motors
-  private VictorSPX leftMotor1 = new VictorSPX(5);
-  private VictorSPX leftMotor2 = new VictorSPX(6);
-  private VictorSPX leftMotor3 = new VictorSPX(7);
-  private VictorSPX leftMotor4 = new VictorSPX(8);
+  private TalonSRX intakeMotor = new TalonSRX(9);
+  private TalonSRX leftMotor1 = new TalonSRX(5);
+  private TalonSRX leftMotor2 = new TalonSRX(6);
+  private TalonSRX leftMotor3 = new TalonSRX(7);
+  private TalonSRX leftMotor4 = new TalonSRX(8);
   private VictorSPX rightMotor1 = new VictorSPX(1);
   private VictorSPX rightMotor2 = new VictorSPX(2);
   private VictorSPX rightMotor3 = new VictorSPX(3);
@@ -48,8 +50,9 @@ public class Robot extends TimedRobot {
   private XboxController xbox = new XboxController(1);
   // puhneumatics
    //private Compressor comp = new Compressor(PneumaticsModuleType.CTREPCM);
-   private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0,1);
-  
+  private DoubleSolenoid solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,0,1);
+  // PDP
+  // private PDPSim pdp = new PDPSim(23);
   
   
    @Override
@@ -120,14 +123,21 @@ public class Robot extends TimedRobot {
     rightMotor4.set(ControlMode.PercentOutput,-right);
 
     if (xbox.getLeftBumper()) {
-
+ 
       solenoid.set(DoubleSolenoid.Value.kForward);
     }
     else if(xbox.getRightBumper()) {
 
       solenoid.set(DoubleSolenoid.Value.kReverse);
     }
-    
+    //double triggerAxis = getRightTriggerAxis();
+    // ^ doesnt work, settling for x and y instead of triggers
+    if (xbox.getXButton()) {
+      intakeMotor.set(ControlMode.PercentOutput, 0.6);
+    }
+    if (xbox.getYButton()) {
+      intakeMotor.set(ControlMode.PercentOutput, -0.6);
+    }
   }
 
   /** This function is called periodically during operator control. */
